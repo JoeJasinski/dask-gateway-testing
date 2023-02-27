@@ -2,13 +2,26 @@ traefik:
   service:
     type: ClusterIP
 
+controller:
+  image:
+    name: ghcr.io/dask/dask-gateway-server
+    tag: 2023.1.1
 
 gateway:
+  image:
+    name: ghcr.io/dask/dask-gateway-server
+    tag: 2023.1.1
+  env:
+  - name: IDLE_TIMEOUT
+    value: "60"
   extraConfig:
     # Note that the key name here doesn't matter. Values in the
     # `extraConfig` map are concatenated, sorted by key name.
     clusteroptions: |
-      c.KubeClusterConfig.idle_timeout = 60
+      import os
+      idle_timeout =  int(os.environ.get("IDLE_TIMEOUT", 500))
+      print("JJJJJJJJJJJJJJJ", idle_timeout, flush=True)
+      c.KubeClusterConfig.idle_timeout = idle_timeout
 #         from dask_gateway_server.options import Options, Integer, Float, String
 
 #         def option_handler(options):
@@ -25,4 +38,3 @@ gateway:
 #             handler=option_handler,
 #         )
 
-#         # c

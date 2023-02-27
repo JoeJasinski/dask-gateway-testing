@@ -16,7 +16,7 @@ Tested on Ubuntu 22.04
 
 Start the kind cluster
 
-    inv install-kind
+    inv install-k8s
 
 Install Dask
 
@@ -50,5 +50,5 @@ Uninstall the Dask Gateway
 
 Shut down the kind cluster
 
-    inv uninstall-kind
+    inv uninstall-k8s
 
