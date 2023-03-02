@@ -14,13 +14,19 @@ gateway:
   env:
   - name: IDLE_TIMEOUT
     value: "60"
+  - name: MY_HOSTIP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.hostIP
   extraConfig:
     # Note that the key name here doesn't matter. Values in the
     # `extraConfig` map are concatenated, sorted by key name.
     clusteroptions: |
       import os
       idle_timeout =  int(os.environ.get("IDLE_TIMEOUT", 500))
-      print("JJJJJJJJJJJJJJJ", idle_timeout, flush=True)
+      host_ip =  os.environ.get("MY_HOSTIP", 0)
+      print("JJJJJJJJJJJJJJJ idle_timeout", idle_timeout, flush=True)
+      print("JJJJJJJJJJJJJJJ host_ip", host_ip, flush=True)      
       c.KubeClusterConfig.idle_timeout = idle_timeout
 #         from dask_gateway_server.options import Options, Integer, Float, String
 
